@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include<stdlib.h>
+
+
+char* vigenereDecrypt(char* cipher, char*key )
+{
+    int length = strlen(cipher);
+    int keyLength = strlen(key);
+    char* plaintext =(char*) malloc(sizeof(char)*(length + 1 ));
+    memset(plaintext, '\0', sizeof(char)*(length + 1));
+    
+    for(int i=0; i< length; i++)
+    {
+        if(isalpha(cipher[i]))
+        {
+            int shift = tolower(key[i % keyLength]) - 'a';
+            if(islower(cipher[i]))
+            {
+                plaintext[i] = 'a' + (cipher[i] - 'a' - shift +26) % 26;
+                
+            }
+            else
+            {
+                plaintext[i] = 'A' + (cipher[i] - 'A' - shift + 26) % 26;
+            }
+            
+        }
+        else
+        {
+            plaintext[i] = cipher[i];
+        }
+    }
+    plaintext[length] = '\0';
+    return plaintext;
+}
+int main(){
+   const int MAXN = 1024;
+   char text[MAXN];
+   printf("Enter text:");
+   scanf("%s",text);
+   
+   char key[MAXN];
+   printf("Enter Key");
+   scanf("%s", key);
+   
+   char*cipher = vigenereDecrypt(text, key);
+   printf("%s",cipher);
+   
+   return EXIT_SUCCESS;
+}
+    
+
